@@ -49,7 +49,7 @@ export default function ChatPage() {
       <div className="flex-1 p-6 flex flex-col">
         <Card className="flex-1 flex flex-col">
           <CardContent className="flex-1 flex flex-col p-6">
-            <ScrollArea className="flex-1 -mx-6" viewportRef={viewportRef}>
+            <ScrollArea className="flex-1 -mx-6" ref={viewportRef}>
               <div className="px-6 space-y-6">
                   {messages.map((message, index) => (
                   <div
@@ -65,12 +65,13 @@ export default function ChatPage() {
                       </Avatar>
                       )}
                       <div
-                      className={cn(
-                          'max-w-xl rounded-lg p-3 text-sm shadow-sm',
-                          message.role === 'user'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-card border'
-                      )}
+                        data-testid="assistant-message"
+                        className={cn(
+                            'max-w-xl rounded-lg p-3 text-sm shadow-sm',
+                            message.role === 'user'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-card border'
+                        )}
                       >
                           <p className="whitespace-pre-wrap">{message.content}</p>
                       </div>
