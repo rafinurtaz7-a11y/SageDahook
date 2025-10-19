@@ -1,10 +1,11 @@
 'use server';
 
-import { z } from 'zod';
-import { summarizeDocument } from '@/ai/flows/summarize-document';
-import { answerQuestion } from '@/ai/flows/answer-question';
-import { generateContentFromDocuments } from '@/ai/flows/generate-content-from-documents';
-import { documents } from '@/lib/documents';
+import {z} from 'zod';
+import {summarizeDocument} from '@/ai/flows/summarize-document';
+import {answerQuestion} from '@/ai/flows/answer-question';
+import {longFormTextGenerationFlow} from '@/ai/flows/generate-long-form-text';
+import {imageGenerationFlow} from '@/ai/flows/generate-image';
+import {documents} from '@/lib/documents';
 
 // --- Summarization Action ---
 const summarizeSchema = z.object({
@@ -17,21 +18,27 @@ type SummaryState = {
   summary: string;
 };
 
-export async function getSummary(prevState: SummaryState, formData: FormData): Promise<SummaryState> {
+export async function getSummary(
+  prevState: SummaryState,
+  formData: FormData,
+): Promise<SummaryState> {
   const validatedFields = summarizeSchema.safeParse({
     documentContent: formData.get('documentContent'),
     style: formData.get('style') || undefined,
   });
 
   if (!validatedFields.success) {
-    return { message: 'Invalid form data.', summary: '' };
+    return {message: 'Invalid form data.', summary: ''};
   }
 
   try {
-    const { summary } = await summarizeDocument(validatedFields.data);
-    return { message: 'Success', summary };
+    const {summary} = await summarizeDocument(validatedFields.data);
+    return {message: 'Success', summary};
   } catch (e) {
-    return { message: 'An error occurred while generating the summary.', summary: '' };
+    return {
+      message: 'An error occurred while generating the summary.',
+      summary: '',
+    };
   }
 }
 
@@ -41,15 +48,15 @@ const chatSchema = z.object({
 });
 
 export async function getChatAnswer(question: string): Promise<string> {
-  const validatedFields = chatSchema.safeParse({ question });
+  const validatedFields = chatSchema.safeParse({question});
 
   if (!validatedFields.success) {
     return 'Invalid question.';
   }
-  
+
   try {
-    const documentContents = documents.map(doc => doc.content);
-    const { answer } = await answerQuestion({
+    const documentContents = documents.map((doc) => doc.content);
+    const {answer} = await answerQuestion({
       question: validatedFields.data.question,
       documentContents,
     });
@@ -59,53 +66,22 @@ export async function getChatAnswer(question: string): Promise<string> {
   }
 }
 
-
-// --- Generation Action ---
-const generateSchema = z.object({
-  query: z.string(),
-  documentIds: z.array(z.string()),
-  style: z.string().optional(),
-});
-
-type GenerationState = {
-  message: string;
-  generatedContent: string;
-};
-
-export async function generateContent(prevState: GenerationState, formData: FormData): Promise<GenerationState> {
-  const documentIds = formData.getAll('documentIds') as string[];
-  const validatedFields = generateSchema.safeParse({
-    query: formData.get('query'),
-    documentIds: documentIds,
-    style: formData.get('style') || undefined,
-  });
-
-  if (!validatedFields.success) {
-    console.error(validatedFields.error.flatten().fieldErrors);
-    return { message: 'Invalid form data.', generatedContent: '' };
-  }
-  
-  const query = validatedFields.data.query as string;
-  if(!query?.trim()){
-    return { message: 'Query cannot be empty.', generatedContent: '' };
-  }
-
+// --- Long Form Text Generation Action ---
+export async function generateLongFormText(prompt: string): Promise<string> {
   try {
-    const documentContext = documents
-        .filter(doc => validatedFields.data.documentIds.includes(doc.id))
-        .map(doc => `Document: ${doc.title}\nContent: ${doc.content}`);
-    
-    if (documentContext.length === 0) {
-        return { message: 'Please select at least one document.', generatedContent: '' };
-    }
-
-    const { generatedContent } = await generateContentFromDocuments({
-        query: validatedFields.data.query,
-        documentContext,
-        style: validatedFields.data.style,
-    });
-    return { message: 'Success', generatedContent };
+    const generatedText = await longFormTextGenerationFlow({prompt});
+    return generatedText;
   } catch (e) {
-    return { message: 'An error occurred while generating content.', generatedContent: '' };
+    return 'An error occurred while generating content.';
+  }
+}
+
+// --- Image Generation Action ---
+export async function generateImage(prompt: string): Promise<string> {
+  try {
+    const imageUrl = await imageGenerationFlow({prompt});
+    return imageUrl;
+  } catch (e) {
+    return 'An error occurred while generating the image.';
   }
 }

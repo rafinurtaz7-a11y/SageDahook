@@ -12,7 +12,9 @@ import {z} from 'genkit';
 
 const AnswerQuestionInputSchema = z.object({
   question: z.string().describe('The question to answer.'),
-  documentContents: z.array(z.string()).describe('The contents of the documents in the knowledge base.'),
+  documentContents: z
+    .array(z.string())
+    .describe('The contents of the documents in the knowledge base.'),
 });
 export type AnswerQuestionInput = z.infer<typeof AnswerQuestionInputSchema>;
 
@@ -21,7 +23,9 @@ const AnswerQuestionOutputSchema = z.object({
 });
 export type AnswerQuestionOutput = z.infer<typeof AnswerQuestionOutputSchema>;
 
-export async function answerQuestion(input: AnswerQuestionInput): Promise<AnswerQuestionOutput> {
+export async function answerQuestion(
+  input: AnswerQuestionInput,
+): Promise<AnswerQuestionOutput> {
   return answerQuestionFlow(input);
 }
 
@@ -48,8 +52,8 @@ const answerQuestionFlow = ai.defineFlow(
     inputSchema: AnswerQuestionInputSchema,
     outputSchema: AnswerQuestionOutputSchema,
   },
-  async input => {
+  async (input) => {
     const {output} = await prompt(input);
     return output!;
-  }
+  },
 );

@@ -18,16 +18,24 @@ const SummarizeDocumentInputSchema = z.object({
   style: z
     .string()
     .optional()
-    .describe('The desired style of the summary (e.g., formal, informal, technical).'),
+    .describe(
+      'The desired style of the summary (e.g., formal, informal, technical).',
+    ),
 });
-export type SummarizeDocumentInput = z.infer<typeof SummarizeDocumentInputSchema>;
+export type SummarizeDocumentInput = z.infer<
+  typeof SummarizeDocumentInputSchema
+>;
 
 const SummarizeDocumentOutputSchema = z.object({
   summary: z.string().describe('The summary of the document.'),
 });
-export type SummarizeDocumentOutput = z.infer<typeof SummarizeDocumentOutputSchema>;
+export type SummarizeDocumentOutput = z.infer<
+  typeof SummarizeDocumentOutputSchema
+>;
 
-export async function summarizeDocument(input: SummarizeDocumentInput): Promise<SummarizeDocumentOutput> {
+export async function summarizeDocument(
+  input: SummarizeDocumentInput,
+): Promise<SummarizeDocumentOutput> {
   return summarizeDocumentFlow(input);
 }
 
@@ -49,8 +57,8 @@ const summarizeDocumentFlow = ai.defineFlow(
     inputSchema: SummarizeDocumentInputSchema,
     outputSchema: SummarizeDocumentOutputSchema,
   },
-  async input => {
+  async (input) => {
     const {output} = await prompt(input);
     return output!;
-  }
+  },
 );
