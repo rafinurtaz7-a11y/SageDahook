@@ -42,7 +42,7 @@ export default function MainNav() {
             {isCollapsed ? (
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <SidebarMenuButton asChild isActive={isActive} size="icon">
+                        <SidebarMenuButton asChild isActive={isActive}>
                            {buttonContent}
                         </SidebarMenuButton>
                     </TooltipTrigger>
