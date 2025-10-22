@@ -15,7 +15,17 @@ This is a Next.js starter application for a local-first, offline AI application.
 - [Node.js](https://nodejs.org/) (v20 or later)
 - [Ollama](https://ollama.com/)
 
-### Installation
+### Installation (Windows)
+
+For Windows users, simply double-click the `setup.bat` file in the repository's root directory. This will automatically install all necessary dependencies and guide you through the Ollama model setup.
+
+Once the setup is complete, you can start the application by running:
+
+```bash
+npm run dev
+```
+
+### Installation (macOS/Linux)
 
 1.  **Clone the repository:**
 
