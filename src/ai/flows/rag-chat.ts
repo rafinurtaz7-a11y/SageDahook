@@ -1,5 +1,5 @@
 'use server';
-import {ai} from '@/ai/genkit';
+import {ai, dynamicModel} from '@/ai/genkit';
 import {z} from 'genkit';
 import {Document} from '@genkit-ai/ai/retriever';
 import {devLocalRetrieverRef} from '@genkit-ai/dev-local-vectorstore';
@@ -38,7 +38,7 @@ const ragChatFlow = ai.defineFlow(
       ${context}
 
       Answer: `,
-      model: 'ollama/llama3',
+      model: dynamicModel,
     });
 
     return {answer: response.text};

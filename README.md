@@ -41,7 +41,9 @@ npm run dev
 
 3.  **Set up the environment:**
 
-    This script will check if you have Ollama installed. If not, it will guide you to the download page. It will then download the `llama3` model for you.
+    This script will check if you have any Ollama models installed.
+    - If you do, it will configure the app to use your first installed model.
+    - If you don't, it will download `deepseek-llm` and configure it for you.
 
     ```bash
     npm run setup

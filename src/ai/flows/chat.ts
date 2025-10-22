@@ -1,5 +1,5 @@
 'use server';
-import {ai} from '@/ai/genkit';
+import {ai, dynamicModel} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ChatInputSchema = z.object({
@@ -19,7 +19,7 @@ const chatFlow = ai.defineFlow(
   async ({message}) => {
     const response = await ai.generate({
       prompt: message,
-      model: 'ollama/llama3',
+      model: dynamicModel,
     });
     return {message: response.text};
   }

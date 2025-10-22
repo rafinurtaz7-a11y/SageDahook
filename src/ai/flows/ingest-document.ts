@@ -1,5 +1,5 @@
 'use server';
-import {ai, llama3} from '@/ai/genkit';
+import {ai, dynamicModel} from '@/ai/genkit';
 import {z} from 'genkit';
 import {Document} from '@genkit-ai/ai/retriever';
 import {chunk} from 'llm-chunk';
@@ -45,7 +45,7 @@ const ingestDocumentFlow = ai.defineFlow(
     await ai.index({
       indexer: documentsIndexer,
       documents,
-      embedder: llama3,
+      embedder: dynamicModel,
     });
   }
 );
