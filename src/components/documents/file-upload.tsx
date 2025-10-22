@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useState, useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { uploadDocument } from '@/app/actions';
 import { Upload, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -24,7 +24,7 @@ function SubmitButton() {
 }
 
 export default function FileUpload() {
-  const [state, formAction] = useFormState(uploadDocument, initialState);
+  const [state, formAction] = useActionState(uploadDocument, initialState);
   const [isDragActive, setIsDragActive] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const { toast } = useToast();
