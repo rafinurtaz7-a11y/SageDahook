@@ -33,5 +33,5 @@ call npm run setup
 
 echo.
 echo Setup complete!
-echo You can now start the application by running: npm run dev
+echo You can now start the application by double-clicking the 'run.bat' file.
 pause

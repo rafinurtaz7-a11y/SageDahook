@@ -16,13 +16,11 @@ This is a Next.js starter application for a local-first, offline AI application.
 
 ### Installation (Windows)
 
-For Windows users, simply double-click the `setup.bat` file in the repository's root directory. This will automatically install all necessary dependencies and guide you through the Ollama model setup.
+For Windows users, the process is simple:
+1.  Double-click `setup.bat` to install dependencies and configure your AI model.
+2.  Once setup is complete, double-click `run.bat` to start the application.
 
-Once the setup is complete, you can start the application by running:
-
-```bash
-npm run dev
-```
+The application will be available at [http://localhost:9002](http://localhost:9002).
 
 ### Installation (macOS/Linux)
 
