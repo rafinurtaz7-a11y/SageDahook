@@ -10,10 +10,9 @@ This is a Next.js starter application for a local-first, offline AI application.
 
 ## Getting Started
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v20 or later)
-- [Ollama](https://ollama.com/)
+> [!IMPORTANT]
+> **You must install [Node.js](https://nodejs.org/en/download) (version 20 or later) and [Ollama](https://ollama.com/) before proceeding.**
+> The setup scripts will not work without them.
 
 ### Installation (Windows)
 
