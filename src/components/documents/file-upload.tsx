@@ -89,12 +89,13 @@ export default function FileUpload() {
             {file ? (
               file.name
             ) : (
-              <span
-                dangerouslySetInnerHTML={{
-                  __html:
-                    'Drag and drop your files here, or <span class="font-semibold text-primary">click to browse</span>.',
-                }}
-              />
+              <span>
+                Drag and drop your files here, or{' '}
+                <span className="font-semibold text-primary">
+                  click to browse
+                </span>
+                .
+              </span>
             )}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
